@@ -2,147 +2,36 @@ package com.example.di;
 
 import javax.sql.DataSource;
 
-public class ConfigurationService {
+public abstract class ConfigurationService {
 
-	private static ConfigurationService instance = new ConfigurationService();
+	private static ConfigurationService instance = new ConfigurationServicePlain();
 
-	private CustomerService customerService;
-	private NetworkAddrService networkAddrService;
-	private SecurityService securityService;
-	private RequestMessageLogService requestMessageLogService;
-	private DistributionEngine distributionEngine;
-	private MyValidator myValidator;
-	private MyStatelessWorkerBean worker;
-	private DataSource regionalDataSource;
-	private DataSource globalDataSource;
-
-	public static ConfigurationService getInstance() {
+	public static synchronized ConfigurationService getInstance() {
 		return instance;
 	}
 
-	public ConfigurationService() {
-		reset();
+	public static synchronized void setInstance(ConfigurationService service) {
+		ConfigurationService.instance = service;
+	}
+	
+	public static synchronized void reset() {
+		ConfigurationService.instance = new ConfigurationServicePlain();
 	}
 
-	public void reset() {
-		regionalDataSource = jndiLookup("/jdbc/RegionalDS", DataSource.class);
-		globalDataSource = jndiLookup("/jdbc/GlobalDS", DataSource.class);
-		worker = jndiLookup("myWorker", MyStatelessWorkerBean.class);
-		customerService = new CustomerService();
-		customerService.setDataSource(regionalDataSource);
-		networkAddrService = new NetworkAddrService();
-		networkAddrService.setDataSource(regionalDataSource);
-		securityService = new SecurityService();
-		securityService.setDataSource(globalDataSource);
-		requestMessageLogService = new RequestMessageLogService();
-		requestMessageLogService.setDatasource(regionalDataSource);
-		myValidator = new MyValidator();
-		myValidator.setCustomerService(customerService);
-		distributionEngine = new DistributionEngine();
-		distributionEngine.setCustomerService(customerService);
-		distributionEngine.setNetworkAddrService(networkAddrService);
-	}
+	public abstract CustomerService getCustomerService();
 
-	private <T> T jndiLookup(String string, Class<T> type) {
-		Object obj = null; // Do lookup
-		T result = type.cast(obj);
-		return result;
-	}
+	public abstract NetworkAddrService getNetworkAddrService();
 
-	public CustomerService getCustomerService() {
-		return customerService;
-	}
+	public abstract SecurityService getSecurityService();
 
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
-	}
+	public abstract DistributionEngine getDistributionEngine();
 
-	public NetworkAddrService getNetworkAddrService() {
-		return networkAddrService;
-	}
+	public abstract MyValidator getMyValidator();
 
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setNetworkAddrService(NetworkAddrService networkAddrService) {
-		this.networkAddrService = networkAddrService;
-	}
+	public abstract MyStatelessWorkerBean getWorker();
 
-	public SecurityService getSecurityService() {
-		return securityService;
-	}
+	public abstract DataSource getRegionalDataSource();
 
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setSecurityService(SecurityService securityService) {
-		this.securityService = securityService;
-	}
-
-	public DistributionEngine getDistributionEngine() {
-		return distributionEngine;
-	}
-
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setDistributionEngine(DistributionEngine distributionEngine) {
-		this.distributionEngine = distributionEngine;
-	}
-
-	public MyValidator getMyValidator() {
-		return myValidator;
-	}
-
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setMyValidator(MyValidator myValidator) {
-		this.myValidator = myValidator;
-	}
-
-	public MyStatelessWorkerBean getWorker() {
-		return worker;
-	}
-
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setWorker(MyStatelessWorkerBean worker) {
-		this.worker = worker;
-	}
-
-	public DataSource getRegionalDataSource() {
-		return regionalDataSource;
-	}
-
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setRegionalDataSource(DataSource regionalDataSource) {
-		this.regionalDataSource = regionalDataSource;
-	}
-
-	public DataSource getGlobalDataSource() {
-		return globalDataSource;
-	}
-
-	/**
-	 * Never call this. Only call this in test cases when injecting a mock. That
-	 * test should then call reset() afterwards to clean back up this state.
-	 */
-	public void setGlobalDataSource(DataSource globalDataSource) {
-		this.globalDataSource = globalDataSource;
-	}
+	public abstract DataSource getGlobalDataSource();
 
 }

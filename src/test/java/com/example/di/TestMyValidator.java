@@ -1,22 +1,26 @@
 package com.example.di;
 
-import java.util.Arrays;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
-import static org.mockito.Mockito.*;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.verification.VerificationMode;
 
 public class TestMyValidator {
 
-	@After
-	public void cleanupGlobalVariables() {
-		ConfigurationService.getInstance().reset();
+	@BeforeClass
+	public void reinitializeGlobals() {
+		ConfigurationService.reset();
 	}
 	
 	@Test
