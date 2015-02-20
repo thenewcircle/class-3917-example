@@ -8,14 +8,14 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class ConfigurationServiceSpringJavaConfig extends ConfigurationService {
+public class ConfigurationServiceSpringAutowired extends ConfigurationService {
 
-	public static ConfigurationServiceSpringJavaConfig install() {
+	public static ConfigurationServiceSpringAutowired install() {
 		return install("/com/example/di/spring-config-injected.xml");
 	}
 	
-	public static ConfigurationServiceSpringJavaConfig install(String xmlFile) {
-		ConfigurationServiceSpringJavaConfig config = new ConfigurationServiceSpringJavaConfig(xmlFile);
+	public static ConfigurationServiceSpringAutowired install(String xmlFile) {
+		ConfigurationServiceSpringAutowired config = new ConfigurationServiceSpringAutowired(xmlFile);
 		ConfigurationService.setInstance(config);
 		return config;
 	}
@@ -44,13 +44,10 @@ public class ConfigurationServiceSpringJavaConfig extends ConfigurationService {
 	private MyValidator myValidator;
 
 	@Autowired
-	private MyStatelessWorkerBean worker;
-
-	@Autowired
 	private RequestMessageLogService requestMessageLogService;
 
 	@SuppressWarnings("deprecation")
-	public ConfigurationServiceSpringJavaConfig(String xmlFile) {
+	public ConfigurationServiceSpringAutowired(String xmlFile) {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(xmlFile); 
 		ctx.getAutowireCapableBeanFactory().autowireBean(this);
 	}
@@ -82,7 +79,7 @@ public class ConfigurationServiceSpringJavaConfig extends ConfigurationService {
 
 	@Override
 	public MyStatelessWorkerBean getWorker() {
-		return worker;
+		return new MyStatelessWorkerBean(this);
 	}
 
 	@Override

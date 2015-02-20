@@ -6,9 +6,8 @@
  					 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 					 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
  
-	<!--  <context:component-scan base-package="com.javahash.spring.controller" /> --> 
-	
 	<context:annotation-config/>
+	<context:component-scan base-package="com.example.di" /> 
  
 	<bean id="globalDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<qualifier value="global"/>

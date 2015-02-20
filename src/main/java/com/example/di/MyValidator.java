@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class MyValidator {
 
+	@Autowired
 	private CustomerService customerService;
-	private RequestMessageLogService messageLogService;
+	@Autowired
+	private RequestMessageLogService requestMessageLogService;
 	
 	public List<ValidationError> validate(Object msg) {
 		List<ValidationError> errors = new ArrayList<ValidationError>();
@@ -20,7 +24,7 @@ public class MyValidator {
 		}
 		errors = Collections.unmodifiableList(errors);
 		if (!errors.isEmpty()) {
-			messageLogService.logValidationErrors(errors);
+			requestMessageLogService.logValidationErrors(errors);
 		}
 		return errors;
 	}
@@ -29,11 +33,16 @@ public class MyValidator {
 		this.customerService = customerService;
 	}
 
-	public void setRequestMessageLogService(
-			RequestMessageLogService messageLogService) {
-		this.messageLogService = messageLogService;
+	public CustomerService getCustomerService() {
+		return customerService;
 	}
 	
+	public void setRequestMessageLogService(RequestMessageLogService requestMessageLogService) {
+		this.requestMessageLogService = requestMessageLogService;
+	}
 	
+	public RequestMessageLogService getRequestMessageLogService() {
+		return requestMessageLogService;
+	}
 	
 }

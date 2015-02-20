@@ -24,25 +24,30 @@
         <property name="password" value="some-password"/>
     </bean>
  
- 	<bean class="com.example.di.CustomerService"/>
-	<bean class="com.example.di.NetworkAddrService"/>
-	<bean class="com.example.di.SecurityService"/>
-	<bean class="com.example.di.DistributionEngine"/>
-	<bean class="com.example.di.MyValidator"/>
-	<bean class="com.example.di.MyStatelessWorkerBean"/>
-	<bean class="com.example.di.RequestMessageLogService"/>
+ 	<bean id="customerService" class="com.example.di.CustomerService">
+ 		<property name="dataSource" ref="regionalDataSource"/>
+ 	</bean>
 
-<!-- 	<bean class="com.example.di.ConfigurationServiceSpringXML">
-		<property name="regionalDataSource" ref="regionalDataSource"/>
-		<property name="globalDataSource" ref="globalDataSource"/>
-		<property name="customerService" ref="customerService"/>
+	<bean id="networkAddrService" class="com.example.di.NetworkAddrService">
+ 		<property name="dataSource" ref="regionalDataSource"/>
+	</bean>
+
+	<bean class="com.example.di.SecurityService">
+ 		<property name="dataSource" ref="globalDataSource"/>
+	</bean>
+
+	<bean id="distributionEngine" class="com.example.di.DistributionEngine">
 		<property name="networkAddrService" ref="networkAddrService"/>
-		<property name="securityService" ref="securityService"/>
-		<property name="distributionEngine" ref="distributionEngine"/>
-		<property name="myValidator" ref="myValidator"/>
-		<property name="worker" ref="worker"/>
+		<property name="customerService" ref="customerService"/>
+	</bean>
+	
+	<bean id="myValidator" class="com.example.di.MyValidator">
+		<property name="customerService" ref="customerService"/>
 		<property name="requestMessageLogService" ref="requestMessageLogService"/>
 	</bean>
- -->
- 
+
+	<bean id="requestMessageLogService" class="com.example.di.RequestMessageLogService">
+ 		<property name="dataSource" ref="regionalDataSource"/>
+	</bean>
+	
 </beans>

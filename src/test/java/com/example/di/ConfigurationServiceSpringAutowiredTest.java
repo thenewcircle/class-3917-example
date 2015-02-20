@@ -7,11 +7,11 @@ import javax.sql.DataSource;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ConfigurationServiceSpringXMLTest {
+public class ConfigurationServiceSpringAutowiredTest {
 
 	@Test
 	public void testConfiguration() {
-		ConfigurationServiceSpringXML.install();
+		ConfigurationServiceSpringAutowired.install();
 		ConfigurationService config = ConfigurationService.getInstance();
 		
 		Assert.assertNotNull(config.getCustomerService());

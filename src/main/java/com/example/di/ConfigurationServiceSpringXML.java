@@ -53,7 +53,7 @@ public class ConfigurationServiceSpringXML extends ConfigurationService {
 
 	@Override
 	public MyStatelessWorkerBean getWorker() {
-		return spring.getBean(MyStatelessWorkerBean.class);
+		return new MyStatelessWorkerBean(this);
 	}
 
 	@Override

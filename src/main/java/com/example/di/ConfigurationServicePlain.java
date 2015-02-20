@@ -25,7 +25,7 @@ public class ConfigurationServicePlain extends ConfigurationService {
 		securityService = new SecurityService();
 		securityService.setDataSource(globalDataSource);
 		requestMessageLogService = new RequestMessageLogService();
-		requestMessageLogService.setDatasource(regionalDataSource);
+		requestMessageLogService.setDataSource(regionalDataSource);
 		myValidator = new MyValidator();
 		myValidator.setCustomerService(customerService);
 		distributionEngine = new DistributionEngine();

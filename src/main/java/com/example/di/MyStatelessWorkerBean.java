@@ -1,8 +1,12 @@
 package com.example.di;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class MyStatelessWorkerBean {
 	
+	@Autowired
 	private DistributionEngine engine;
+	@Autowired
 	private MyValidator myValidator;
 	
 	public MyStatelessWorkerBean() {
@@ -19,5 +23,12 @@ public class MyStatelessWorkerBean {
 		Object newMsg = msg;
 		engine.distribute(newMsg);
 	}
+
+	public DistributionEngine getEngine() {
+		return engine;
+	}
 	
+	public MyValidator getMyValidator() {
+		return myValidator;
+	}
 }
