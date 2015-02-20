@@ -34,4 +34,6 @@ public abstract class ConfigurationService {
 
 	public abstract DataSource getGlobalDataSource();
 
+	public abstract RequestMessageLogService getRequestMessageLogService();
+
 }
