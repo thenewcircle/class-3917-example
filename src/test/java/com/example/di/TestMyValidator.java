@@ -19,7 +19,7 @@ import org.mockito.verification.VerificationMode;
 public class TestMyValidator {
 
 	@BeforeClass
-	public void reinitializeGlobals() {
+	public static void reinitializeGlobals() {
 		ConfigurationService.reset();
 	}
 	
@@ -47,10 +47,7 @@ public class TestMyValidator {
 		verifyZeroInteractions(messageLogService);
 		
 		
-		VerificationMode never = Mockito.never();
-		List anyObject = (List) Mockito.anyObject();
-		RequestMessageLogService mockVerify = Mockito.verify(messageLogService, never);
-		mockVerify.logValidationErrors(anyObject);
+		Mockito.verify(messageLogService, never()).logValidationErrors(anyList());
 
 		//5.  Cleanup
 	}
@@ -77,7 +74,7 @@ public class TestMyValidator {
 		
 		//4. Verify results
 		Assert.assertEquals(expectedResult, actualResult);
-		verify(messageLogService, times(2)).logValidationErrors(anyList());
+		verify(messageLogService, times(1)).logValidationErrors(anyList());
 
 		//5.  Cleanup
 	}

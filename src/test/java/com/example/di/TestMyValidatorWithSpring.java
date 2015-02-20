@@ -23,10 +23,10 @@ import org.springframework.test.context.junit4.*;
 @ContextConfiguration("classpath:/com/example/di/spring-config.xml")
 public class TestMyValidatorWithSpring {
 
-	@BeforeClass
-	public void reinitializeGlobals() {
-		ConfigurationService.reset();
-	}
+//	@BeforeClass
+//	public void reinitializeGlobals() {
+//		ConfigurationService.reset();
+//	}
 	
 	@Test
 	public void testValidateScenerio1() {
@@ -51,11 +51,7 @@ public class TestMyValidatorWithSpring {
 		verify(messageLogService, never()).logValidationErrors(anyList());
 		verifyZeroInteractions(messageLogService);
 		
-		
-		VerificationMode never = Mockito.never();
-		List anyObject = (List) Mockito.anyObject();
-		RequestMessageLogService mockVerify = Mockito.verify(messageLogService, never);
-		mockVerify.logValidationErrors(anyObject);
+		Mockito.verify(messageLogService, never()).logValidationErrors(anyList());
 
 		//5.  Cleanup
 	}
@@ -82,7 +78,7 @@ public class TestMyValidatorWithSpring {
 		
 		//4. Verify results
 		Assert.assertEquals(expectedResult, actualResult);
-		verify(messageLogService, times(2)).logValidationErrors(anyList());
+		verify(messageLogService, Mockito.times(1)).logValidationErrors(anyList());
 
 		//5.  Cleanup
 	}
