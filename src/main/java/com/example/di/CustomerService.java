@@ -18,9 +18,5 @@ public class CustomerService {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-
-	public Object getDataSource() {
-		return dataSource;
-	}
 	
 }
